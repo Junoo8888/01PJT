@@ -37,6 +37,7 @@ public class ListSaleAction extends Action{
 		request.setAttribute("searchVO", searchVO);
 		
 		System.out.println("디버깅");
+		System.out.println("생애 첫 commit ");
 		
 		return "forward:/product/listProduct.jsp";
 	}
