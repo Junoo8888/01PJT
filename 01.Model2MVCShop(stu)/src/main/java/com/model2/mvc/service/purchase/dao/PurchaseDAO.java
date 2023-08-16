@@ -159,11 +159,11 @@ public class PurchaseDAO {
 
 		rs.absolute(searchVO.getPage() * searchVO.getPageUnit() - searchVO.getPageUnit()+1);
 		
-		ArrayList<PurchaseVO> list = new ArrayList<PurchaseVO>();
+		ArrayList<ProductVO> list = new ArrayList<ProductVO>();
 		if (total > 0) {
 			for (int i = 0; i < searchVO.getPageUnit(); i++) {
 				ProductVO productVO = new ProductVO();
-				PurchaseVO purchaseVO = new PurchaseVO();
+			//	PurchaseVO purchaseVO = new PurchaseVO();
 				
 				productVO.setProdNo(rs.getInt("PROD_NO"));
 				productVO.setProdName(rs.getString("PROD_NAME"));
@@ -174,10 +174,7 @@ public class PurchaseDAO {
 				productVO.setRegDate(rs.getDate("REG_DATE"));
 				productVO.setProTranCode(rs.getString("tran_status_code"));
 				
-				purchaseVO.setPurchaseProd(productVO);
-				purchaseVO.setTranCode(rs.getString("tran_status_code"));
-				
-				list.add(purchaseVO);
+				list.add(productVO);
 				if (!rs.next())
 					break;
 			}
@@ -225,9 +222,6 @@ public class PurchaseDAO {
 				+ "SET receiver_name=?, receiver_phone=?, demailaddr=?, dlvy_request=? "
 				+ "WHERE tran_no = ?"; 
 		
-		System.out.println("updatePurchase sql : " +  sql);
-		System.out.println("purchaseVO.getTranNo() ==> " + purchaseVO.getTranNo());
-		System.out.println("purchaseVO.getNAMEMMMMMM ==> " + purchaseVO.getReceiverName());
 		
 		PreparedStatement pstmt = con.prepareStatement(sql);
 		pstmt.setString(1, purchaseVO.getReceiverName());
@@ -241,7 +235,32 @@ public class PurchaseDAO {
 		
 	}
 	
-	public void updateTranCode(PurchaseVO purcharseVO) throws Exception{
+	public void updateTranCode(PurchaseVO purchaseVO) throws Exception{
+		
+		Connection con = DBUtil.getConnection();
+		
+		String sql = "UPDATE transaction "
+				+ "SET tran_status_code = ? ";
+		
+		if(purchaseVO.getPurchaseProd() != null) {
+			
+			System.out.println("여기로 들어오는ㄱ ");
+
+			
+			sql += "WHERE prod_no = ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, purchaseVO.getTranCode());
+			pstmt.setInt(2, purchaseVO.getPurchaseProd().getProdNo());
+			pstmt.executeUpdate();
+		}else {
+			sql += "WHERE tran_no = ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, purchaseVO.getTranCode());
+			pstmt.setInt(2, purchaseVO.getTranNo());
+			pstmt.executeUpdate();
+		}
+		
+		con.close();
 		
 	}
 	

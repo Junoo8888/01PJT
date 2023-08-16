@@ -1,3 +1,4 @@
+<%@page import="com.model2.mvc.service.user.vo.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 
@@ -8,11 +9,20 @@
 
 <%
 
+	UserVO userVO = (UserVO)session.getAttribute("user");
+
+		String role="";
+
+		if(userVO != null) {
+			role=userVO.getRole();
+		}
 
 	HashMap<String,Object> map=(HashMap<String,Object>)request.getAttribute("map");
 	SearchVO searchVO=(SearchVO)request.getAttribute("searchVO");
 	
 	int total=0;
+	
+	
 	ArrayList<ProductVO> list=null;
 	if(map != null){
 		total=((Integer)map.get("count")).intValue();
@@ -184,7 +194,7 @@ function fncGetProductList(){
 				
 				<!--  판매중 상품만 클릭 가능하도록 처리-->
 				<td align="left">
-				<%if(vo.getProTranCode().equals("판매중")){  %>
+				<%if(vo.getProTranCode().equals("0")){  %>
 				<a href="/getProduct.do?prodNo=<%=vo.getProdNo() %>&menu=<%=menu %>">	<%} %><%=vo.getProdName() %></a>
 			
 				</td>
@@ -195,8 +205,10 @@ function fncGetProductList(){
 		<td align="left"><%=vo.getRegDate() %></td>
 		<td></td>
 		<td align="left">
-		
-			<%=vo.getProTranCode() %>
+		<%if(vo.getProTranCode().equals("0")){ %> 판매중 <%} else if(role.equals("user")){%> 재고없음 <%} %>
+		<%if(vo.getProTranCode().equals("1") && role.equals("admin")){ %> 구매완료 <a href="/updateTranCode.do?prodNo=<%=vo.getProdNo() %>&tranCode=2">배송하기</a><%} %>
+		<%if(vo.getProTranCode().equals("2") && role.equals("admin")){ %> 배송중 <%} %>
+		<%if(vo.getProTranCode().equals("3") && role.equals("admin")){ %> 배송완료 <%} %>
 		
 		</td>	
 	</tr>

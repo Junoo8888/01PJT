@@ -21,11 +21,10 @@ public class ProductVO {
 		return proTranCode;
 	}
 	public void setProTranCode(String proTranCode) {
-		System.out.println("proTranCode == > " + proTranCode);
-		if(proTranCode== null){
-			this.proTranCode = "판매중";	
-		}else if(proTranCode.equals("1  ")){
-			this.proTranCode = "재고없음" ;
+		if(proTranCode==null) {
+			this.proTranCode = "0";
+		}else {
+			this.proTranCode = proTranCode.trim();
 		}
 	}
 	public String getFileName() {

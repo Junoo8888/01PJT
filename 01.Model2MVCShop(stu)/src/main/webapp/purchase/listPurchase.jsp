@@ -102,10 +102,11 @@
 		<td></td>
 		<td align="left"><%=purchaseVO.getBuyer().getPhone() %></td>
 		<td></td>
-		<td align="left">현재
-				
-					배송완료
-				상태 입니다.</td>
+		<td align="left">
+		<%if(purchaseVO.getTranCode().equals("1")){ %> 배송대기 상태입니다. <%} %>
+		<%if(purchaseVO.getTranCode().equals("2")){ %> 현재 배송중 상태입니다. <a href="/updateTranCode.do?tranNo=<%=purchaseVO.getTranNo() %>&tranCode=3">물건도착</a><%} %>
+		<%if(purchaseVO.getTranCode().equals("3")){ %> 현재 배송 완료 상태입니다. <%} %>
+		</td>
 		<td></td>
 		<td align="left">
 			
