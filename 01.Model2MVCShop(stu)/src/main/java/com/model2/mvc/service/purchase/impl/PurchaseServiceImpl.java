@@ -40,7 +40,6 @@ public class PurchaseServiceImpl implements PurchaseService{
 	}
 	@Override
 	public void updatePurchase(PurchaseVO purcharseVO) throws Exception {
-		System.out.println("updatePurchaseDao ½ÇÇà ");
 		dao.updatePurcharse(purcharseVO);
 		
 	}

@@ -25,22 +25,14 @@ public class UpdateTranCodeAction extends Action{
 		}
 		
 		String tranCode = request.getParameter("tranCode");
-		
-	//	int prodNo = Integer.parseInt(request.getParameter("prodNo"));
-//		int tranNo = Integer.parseInt(request.getParameter("tranNo"));
-		
-		
-		
+
+
 		PurchaseVO purchaseVO = new PurchaseVO();
 		//ProductVO productVO = new ProductVO();
 		//productVO.setProdNo(prodNo);
 		
 		purchaseVO.setTranCode(tranCode);
-	//	purchaseVO.setPurchaseProd(productVO);
-	//	purchaseVO.setTranNo(tranNo);
-		
-//		PurchaseService purchaseService = new PurchaseServiceImpl();
-//		purchaseService.updateTranCode(purchaseVO);
+
 		
 		if(role.equals("user")) {
 			
